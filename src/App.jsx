@@ -5,7 +5,19 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
-  const [files, setFiles] = useState({});
+  const [files, setFiles] = useState({
+    image1: null,
+    image2: null,
+    image3: null,
+    // ajoutez plus de clés si vous en avez besoin
+  });
+
+  const handleFileChange = (e) => {
+    setFiles({
+      ...files,
+      [e.target.name]: e.target.files[0],
+    });
+  };
 
   const handleUpload = () => {
     console.log("upload files01 ", files);
@@ -16,10 +28,16 @@ function App() {
     //   console.log("file forEach", file);
     //   fromData.append("file", file);
     // });
-    for (let i = 0; i < files.length; i++) {
-      console.log("file for", files[i]);
+    // for (let i = 0; i < files.length; i++) {
+    //   console.log("file for", files[i]);
 
-      fromData.append("files", files[i]);
+    //   fromData.append("files", files[i]);
+    // }
+    for (let key in files) {
+      if (files[key]) {
+        console.log(key, files[key]);
+        fromData.append(key, files[key]);
+      }
     }
     axios
       .post("http://localhost:4242/upload", fromData)
@@ -32,11 +50,9 @@ function App() {
   return (
     <>
       <div>
-        <input
-          type="file"
-          multiple //add ici multiple
-          onChange={(e) => setFiles(e.target.files)} //retirer le [0]
-        />
+        <input type="file" name="image1" onChange={handleFileChange} />
+        <input type="file" name="image2" onChange={handleFileChange} />
+        <input type="file" name="image3" onChange={handleFileChange} />
         <button type="button" onClick={handleUpload}>
           Upload
         </button>
