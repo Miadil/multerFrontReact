@@ -5,6 +5,8 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
+  const [firstname, setFirstname] = useState("");
+  const [email, setEmail] = useState("");
   const [files, setFiles] = useState({
     image1: null,
     image2: null,
@@ -39,6 +41,9 @@ function App() {
         fromData.append(key, files[key]);
       }
     }
+    // ajoutez les autres champs à formData
+    fromData.append("firstname", firstname);
+    fromData.append("email", email);
     axios
       .post("http://localhost:4242/upload", fromData)
       .then((res) => {
@@ -53,6 +58,24 @@ function App() {
         <input type="file" name="image1" onChange={handleFileChange} />
         <input type="file" name="image2" onChange={handleFileChange} />
         <input type="file" name="image3" onChange={handleFileChange} />
+        <br />
+        <input
+          type="text"
+          name="firstName"
+          value={firstname}
+          placeholder="Firstname"
+          onChange={(e) => setFirstname(e.target.value)}
+        />
+        <br />
+        <input
+          type="email"
+          name="email"
+          value={email}
+          placeholder="email@yolo.com"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+
         <button type="button" onClick={handleUpload}>
           Upload
         </button>
