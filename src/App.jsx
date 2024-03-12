@@ -5,18 +5,27 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
-  const [files, setFiles] = useState();
+  const [files, setFiles] = useState({});
 
   const handleUpload = () => {
-    console.log(files);
+    console.log("upload files01 ", files);
     const fromData = new FormData();
-    fromData.append("file", files);
+    // fromData.append("file", files);
+
     // files.forEach((file) => {
+    //   console.log("file forEach", file);
     //   fromData.append("file", file);
     // });
+    for (let i = 0; i < files.length; i++) {
+      console.log("file for", files[i]);
+
+      fromData.append("files", files[i]);
+    }
     axios
       .post("http://localhost:4242/upload", fromData)
-      .then((res) => {})
+      .then((res) => {
+        console.log(res);
+      })
       .catch((err) => console.error(err));
   };
 
@@ -25,8 +34,8 @@ function App() {
       <div>
         <input
           type="file"
-          // multiple //add ici multiple
-          onChange={(e) => setFiles(e.target.files[0])} //retirer le [0]
+          multiple //add ici multiple
+          onChange={(e) => setFiles(e.target.files)} //retirer le [0]
         />
         <button type="button" onClick={handleUpload}>
           Upload
