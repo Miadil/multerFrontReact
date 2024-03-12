@@ -5,7 +5,7 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
-  const [files, setFiles] = useState({});
+  const [files, setFiles] = useState({}); //a coriger
 
   const handleUpload = () => {
     console.log("upload files01 ", files);
